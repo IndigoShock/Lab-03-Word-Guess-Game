@@ -4,40 +4,42 @@ using System.Text;
 
 namespace Lab03GuessGame
 {
-    class Program
+    public class Program
     {
-        static string path = "../../FileOfWords.txt";
+        public static string path = "../../../MyFile.txt";
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Word guessing game!\n" +
+            MainMenu();
+        }
+
+        public static void MainMenu()
+        {
+            Console.WriteLine(" \n" +
+                "Welcome to Word guessing game!\n" +
             "Choose the following options:\n" +
            "1. Play game!\n" +
-           "2. Add a word!" +
+           "2. Add a word!\n" +
            "3. See which words are available to guess.\n" +
            "4. Update a word. Maybe you misspelled it.\n" +
            "5. Delete a word.\n" +
            "6. Exit game.\n");
-            MainMenu();
-        }
 
-        static void MainMenu()
-        {
             string userValue = Console.ReadLine();
 
             try
             {
-            if (userValue == "1") PlayGame();
-            if (userValue == "2") CreateFile();
-            if (userValue == "3") ReadWords();
-            if (userValue == "4") UpdateWords();
-            if (userValue == "5") DeleteWords();
-            if (userValue == "6") ExitGame();
+                if (userValue == "1") PlayGame();
+                if (userValue == "2") CreateFile();
+                if (userValue == "3") ReadWords();
+                if (userValue == "4") UpdateWords();
+                if (userValue == "5") DeleteWords();
+                if (userValue == "6") ExitGame();
             }
             catch (Exception e)
             {
                 MenuErrorMessage();
-                throw (new FormatException(e.Message));
+                throw (new Exception(e.Message));
             }
         }
 
@@ -45,64 +47,64 @@ namespace Lab03GuessGame
          
          * TODO: Play Game. 
          * Read through the file with words in it and randomly choose one of the words. 
+         * Add each in as an array.
          * Iterate through the chosen word with each letter as a string. 
          * With each string, replace with a hyphen (" - "). 
          * Have user input guess with one letter. 
          * Check if the user inputted string is one character.
-         * Iterate through whole word and fill in for each letter.
-         * And if the character has been guessed already. 
+         * Iterate through whole word and fill in for each letter guessed with the user input.
+         * And if the character has been guessed already (bool). 
          * After each guess, display what they have guessed so far.
-         * Once all letters from the file have been filled in out for that word, they win. 
+         * Once all letters from the file have been filled out for that word, they win. 
          * Return the full word. And return message stating they win.
          * Return to MainMenu. 
          
          */
 
-            /// <summary>
-            /// 
-            /// </summary>
-        static void PlayGame()
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void PlayGame()
         {
             ReadWords();
             //TODO: Add randomizer to which word can be chosen
             //Random.
+            MainMenu();
         }
 
         //TODO: Create word
         /// <summary>
         /// 
         /// </summary>
-        static void CreateFile()
+        public static void CreateFile()
         {
-            if (!File.Exists((path)))
+
+            using (StreamWriter sw = new StreamWriter(path))
 
             {
-
-                using (StreamWriter sw = new StreamWriter(path))
-
+                try
                 {
-                    try
-                    {
-                    string userInput = Console.ReadLine(); 
+                    string userInput = Console.ReadLine();
                     sw.Write(userInput);
-                    }
-                    catch (Exception)
-                    {
-                    //if no text is typed or null, return message       saying they need to type something in.
-
-                        
-                    }
+                    Console.WriteLine($"You added {userInput}!");
+                    MainMenu();
+                }
+                catch (Exception)
+                {
+                    //if no text is typed or null, return message saying they need to type something in.
+                    Console.WriteLine("Something went wrong");
 
                 }
 
             }
+
         }
 
         //TODO: Read aka Display available words.
         /// <summary>
         /// 
         /// </summary>
-        static void ReadWords()
+        public static void ReadWords()
         {
             try
 
@@ -115,14 +117,13 @@ namespace Lab03GuessGame
                 foreach (string value in myText)
 
                 {
-
                     Console.WriteLine(value);
-
+                MainMenu();
                 }
 
             }
 
-            catch (Exception e)
+            catch (Exception)
 
             {
                 Console.WriteLine("Something went wrong");
@@ -133,14 +134,12 @@ namespace Lab03GuessGame
         /// <summary>
         /// 
         /// </summary>
-        static void UpdateWords()
+        public static void UpdateWords()
         {
             using (StreamWriter sw = File.AppendText(path))
 
             {
-
                 sw.WriteLine("Its Wed!!");
-
             }
         }
 
@@ -148,24 +147,27 @@ namespace Lab03GuessGame
         /// <summary>
         /// 
         /// </summary>
-        static void DeleteWords()
+        public static void DeleteWords()
         {
             File.Delete(path);
+            Console.WriteLine("File has been deleted.");
+            MainMenu();
         }
 
         //TODO: Exit game
         /// <summary>
         /// 
         /// </summary>
-        static void ExitGame()
+        public static void ExitGame()
         {
-            Console.ReadLine();
+            Console.WriteLine("Thanks for playing!");
         }
 
-        static void MenuErrorMessage()
+        public static void MenuErrorMessage()
         {
             Console.WriteLine("You gotta put in 1 through 6");
             MainMenu();
         }
     }
 }
+
