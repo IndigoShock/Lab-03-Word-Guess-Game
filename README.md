@@ -16,7 +16,7 @@ g. If you click 5, you will be able to delete the file.
 h. If you click 6, you will be exited from the Console application with a goodbye message.
 
 Visual
-![Image](/asset/Lab03.JPG)
+![Image](asset/Lab03.JPG)
 
 4. API
 No API's were harmed in the making of this.
