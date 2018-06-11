@@ -10,6 +10,10 @@ namespace Lab03GuessGame
 
         public static void Main(string[] args)
         {
+            string[] starterWords = new string[] { "Chill", "Out", "Broskie", "Cat", "Salmon", "Cookies" };
+
+            CreateFile(starterWords);
+
             MainMenu();
         }
 
@@ -30,7 +34,7 @@ namespace Lab03GuessGame
             try
             {
                 if (userValue == "1") PlayGame();
-                if (userValue == "2") CreateFile();
+                if (userValue == "2") CreateFileWithNewWord();
                 if (userValue == "3") ReadWords();
                 if (userValue == "4") UpdateWords();
                 if (userValue == "5") DeleteWords();
@@ -72,30 +76,71 @@ namespace Lab03GuessGame
             MainMenu();
         }
 
-        //TODO: Create word
         /// <summary>
         /// 
         /// </summary>
-        public static void CreateFile()
+        /// <param name="words"></param>
+        public static void CreateFile(string[] words)
         {
-
             using (StreamWriter sw = new StreamWriter(path))
-
             {
                 try
                 {
-                    string userInput = Console.ReadLine();
-                    sw.Write(userInput);
-                    Console.WriteLine($"You added {userInput}!");
-                    MainMenu();
+                    foreach (string s in words)
+                    {
+                        sw.WriteLine(s);
+                    }
                 }
-                catch (Exception)
+                finally
                 {
-                    //if no text is typed or null, return message saying they need to type something in.
-                    Console.WriteLine("Something went wrong");
-
+                    Console.Clear();
                 }
 
+            }
+
+        }
+
+        //TODO: Create new word
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void CreateFileWithNewWord()
+        {
+            try
+            {
+                Console.WriteLine("Type in the word you would like to add: ");
+                string userInput = Console.ReadLine();
+                CreateFileFromString(userInput);
+                if (userInput.Length < 1)
+                {
+                    Console.WriteLine("You didn't write anything. Try again from Main Menu");
+                    MainMenu();
+                } else
+                {
+
+                Console.WriteLine($"You added {userInput}!");
+                MainMenu();
+                }
+            }
+            catch (Exception)
+            {
+                //if no text is typed or null, return message saying they need to type something in.
+                Console.WriteLine("Something went wrong");
+
+            }
+
+        }
+
+        /// <summary>
+        /// New Word
+        /// </summary>
+        /// <param name="k"></param>
+        public static void CreateFileFromString(string k)
+        {
+            using (StreamWriter sw = File.AppendText(path))
+
+            {
+                    sw.WriteLine(k);
             }
 
         }
@@ -109,17 +154,12 @@ namespace Lab03GuessGame
             try
 
             {
-
-                string[] myText = File.ReadAllLines(path);
-
-
-
-                foreach (string value in myText)
-
+                var words = ReadWordsFromFile();
+                foreach (string value in words)
                 {
                     Console.WriteLine(value);
-                MainMenu();
                 }
+                    MainMenu();
 
             }
 
@@ -128,6 +168,15 @@ namespace Lab03GuessGame
             {
                 Console.WriteLine("Something went wrong");
             }
+        }
+
+        /// <summary>
+        /// Unit Testing Read Words
+        /// </summary>
+        public static string[] ReadWordsFromFile()
+        {
+            string[] lines = File.ReadAllLines(path);
+            return lines;
         }
 
         //TODO: Update word
@@ -139,8 +188,13 @@ namespace Lab03GuessGame
             using (StreamWriter sw = File.AppendText(path))
 
             {
-                sw.WriteLine("Its Wed!!");
+                sw.WriteLine("It is a shame.");
             }
+        }
+
+        public static void UpdatingOneWord()
+        {
+
         }
 
         //TODO: Delete word 
@@ -154,6 +208,14 @@ namespace Lab03GuessGame
             MainMenu();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void DeleteFile()
+        {
+            File.Delete(path);
+        }
+
         //TODO: Exit game
         /// <summary>
         /// 
@@ -161,6 +223,7 @@ namespace Lab03GuessGame
         public static void ExitGame()
         {
             Console.WriteLine("Thanks for playing!");
+            Environment.Exit(0);
         }
 
         public static void MenuErrorMessage()

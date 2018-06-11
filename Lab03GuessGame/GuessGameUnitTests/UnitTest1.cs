@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using Lab03GuessGame;
+using System.IO;
 
 namespace GuessGameUnitTests
 {
@@ -9,33 +10,35 @@ namespace GuessGameUnitTests
         [Fact]
         public void CanCreateFile()
         {
-            //Assert.Contains("TestString", Program.CreateFile());
-            Assert.Equal(1, 1);
-                Program.CreateFile();
+            Program.CreateFileFromString("look!");
+            Assert.True(File.Exists(Program.path));
         }
 
-        //[Fact]
-        //public void CanReadFile()
-        //{
+        [Fact]
+        public void CanReadFile()
+        {
+            string wordies = "Another Look!";
+            Program.CreateFileFromString(wordies);
+            var words = Program.ReadWordsFromFile();
+            Assert.Equal(wordies, words[0]);
+        }
 
-        //}
+    //[Fact]
+    //public void CanUpdateFile()
+    //{
 
-        //[Fact]
-        //public void CanUpdateFile()
-        //{
+    //}
 
-        //}
+    //[Fact]
+    //public void CanDeleteFile()
+    //{
 
-        //[Fact]
-        //public void CanDeleteFile()
-        //{
+    //}
 
-        //}
+    //[Fact]
+    //public void LetterCanBeGuessed()
+    //{
 
-        //[Fact]
-        //public void LetterCanBeGuessed()
-        //{
-
-        //}
-    }
+    //}
+}
 }
