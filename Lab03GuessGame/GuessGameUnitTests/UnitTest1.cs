@@ -23,22 +23,28 @@ namespace GuessGameUnitTests
             Assert.Equal(wordies, words[0]);
         }
 
-    //[Fact]
-    //public void CanUpdateFile()
-    //{
 
-    //}
+        [Fact]
+        public void CanDeleteFile()
+        {
+            Program.DeleteFile();
+            Assert.False(File.Exists(Program.path));
+        }
 
-    //[Fact]
-    //public void CanDeleteFile()
-    //{
+        [Theory]
+        [InlineData("john")]
+        [InlineData("bill")]
 
-    //}
+        public void CanUpdateFile(string value)
+        {
+            Program.CreateFileFromString(value);
+            Assert.Contains(value, Program.ReadWordsFromFile());
+        }
 
-    //[Fact]
-    //public void LetterCanBeGuessed()
-    //{
+        //[Fact]
+        //public void LetterCanBeGuessed()
+        //{
 
-    //}
-}
+        //}
+    }
 }
