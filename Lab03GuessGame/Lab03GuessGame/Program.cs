@@ -10,7 +10,7 @@ namespace Lab03GuessGame
 
         public static void Main(string[] args)
         {
-            string[] starterWords = new string[] { "Chill", "Out", "Broskie", "Cat", "Salmon", "Cookies" };
+            string[] starterWords = new string[] { "Out", "Broskie", "Cat", "Salmon" };
 
             CreateFile(starterWords);
 
@@ -70,9 +70,16 @@ namespace Lab03GuessGame
         /// </summary>
         public static void PlayGame()
         {
-            ReadWords();
+            //ReadWords();
+            Random randm = new Random();
+            string[] myWords = ReadWordsFromFile();
+            int ran = randm.Next(0, myWords.Length);
+            string word = myWords[ran];
+            Console.WriteLine($"random word is {word}");
             //TODO: Add randomizer to which word can be chosen
             //Random.
+            //Look up: ToCharArray, foreach (char c in TestString)
+            //
             MainMenu();
         }
 
@@ -115,11 +122,12 @@ namespace Lab03GuessGame
                 {
                     Console.WriteLine("You didn't write anything. Try again from Main Menu");
                     MainMenu();
-                } else
+                }
+                else
                 {
 
-                Console.WriteLine($"You added {userInput}!");
-                MainMenu();
+                    Console.WriteLine($"You added {userInput}!");
+                    MainMenu();
                 }
             }
             catch (Exception)
@@ -132,16 +140,17 @@ namespace Lab03GuessGame
         }
 
         /// <summary>
-        /// New Word
+        /// Unit testing for New Word
         /// </summary>
         /// <param name="k"></param>
-        public static void CreateFileFromString(string k)
+        public static string CreateFileFromString(string k)
         {
             using (StreamWriter sw = File.AppendText(path))
 
             {
-                    sw.WriteLine(k);
-            }
+                sw.WriteLine(k);
+                return k;
+            };
 
         }
 
@@ -159,7 +168,7 @@ namespace Lab03GuessGame
                 {
                     Console.WriteLine(value);
                 }
-                    MainMenu();
+                MainMenu();
 
             }
 
@@ -181,35 +190,30 @@ namespace Lab03GuessGame
 
         //TODO: Update word
         /// <summary>
-        /// 
+        /// This updates the word
         /// </summary>
         public static void UpdateWords()
         {
             using (StreamWriter sw = File.AppendText(path))
 
             {
-                sw.WriteLine("It is a shame.");
+                string userInput = Console.ReadLine();
+                sw.WriteLine(userInput);
             }
         }
 
-        public static void UpdatingOneWord()
-        {
-
-        }
-
-        //TODO: Delete word 
         /// <summary>
-        /// 
+        /// This method deletes the entire file, states it has been deleted and brings back to the main menu.
         /// </summary>
         public static void DeleteWords()
         {
-            File.Delete(path);
+            DeleteFile();
             Console.WriteLine("File has been deleted.");
             MainMenu();
         }
 
         /// <summary>
-        /// 
+        /// Unit testing functionality for deleting file
         /// </summary>
         public static void DeleteFile()
         {
@@ -218,7 +222,7 @@ namespace Lab03GuessGame
 
         //TODO: Exit game
         /// <summary>
-        /// 
+        /// This method exits the game
         /// </summary>
         public static void ExitGame()
         {
